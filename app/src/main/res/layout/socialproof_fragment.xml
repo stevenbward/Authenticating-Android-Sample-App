@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/socialproof_top_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log into one of these social media platforms and send the data to the server. \nNOTE! None of these are active and hooked up to OAuth. Clicking on them will simply generate fictitious data and make the web call"
+        android:gravity="center|center_vertical"
+        android:layout_margin="20dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/socialproof_linear_layout"
+        android:layout_below="@+id/socialproof_top_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="100"
+        >
+
+        <!-- Instagram -->
+        <LinearLayout
+            android:id="@+id/socialproof_instagram_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="25"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            android:padding="4dp"
+            android:clickable="true"
+            >
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/instagram_logo"
+                android:clickable="false"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="70"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="Login with Instagram"
+                android:clickable="false"
+                />
+
+        </LinearLayout>
+
+        <!-- Facebook -->
+        <LinearLayout
+            android:id="@+id/socialproof_facebook_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="25"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            android:padding="4dp"
+            android:clickable="true"
+            >
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/facebook_logo"
+                android:clickable="false"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="70"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="Login with Facebook"
+                android:clickable="false"
+                />
+
+        </LinearLayout>
+
+        <!-- Twitter -->
+        <LinearLayout
+            android:id="@+id/socialproof_twitter_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="25"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            android:padding="4dp"
+            android:clickable="true"
+            >
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/twitter_logo"
+                android:clickable="false"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="70"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="Login with Twitter"
+                android:clickable="false"
+                />
+
+        </LinearLayout>
+
+        <!-- Google -->
+        <LinearLayout
+            android:id="@+id/socialproof_google_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="25"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            android:padding="4dp"
+            android:clickable="true"
+            >
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/google_plus_logo"
+                android:clickable="false"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="70"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="Login with Google"
+                android:clickable="false"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

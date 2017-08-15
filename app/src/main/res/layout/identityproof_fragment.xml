@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    >
+
+    <TextView
+        android:id="@+id/identityproof_top_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center|center_vertical"
+        android:text="Click on the button below to get your test to prove your identity" />
+
+    <Button
+        android:id="@+id/identityproof_top_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/identityproof_top_tv"
+        android:padding="20dp"
+        android:text="Get Questionaire" />
+
+
+    <ListView
+        android:id="@+id/identityproof_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/identityproof_bottom_button"
+        android:layout_below="@+id/identityproof_top_button" />
+
+    <Button
+        android:id="@+id/identityproof_bottom_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="20dp"
+        android:text="Submit Test Answers"
+        android:visibility="gone" />
+</RelativeLayout>

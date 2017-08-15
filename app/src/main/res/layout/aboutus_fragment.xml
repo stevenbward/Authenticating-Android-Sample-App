@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:padding="20dp"
+        android:lineSpacingMultiplier="1.45"
+        android:gravity="center|center_vertical|center_horizontal"
+        android:text="HOTB Software Solutions specializes in customized software designed specifically for our clients. If you would like more information, please contact us at:\n(877) 636 - 1691"
+        />
+
+</RelativeLayout>

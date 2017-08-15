@@ -1,0 +1,48 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        applicationId "hotb.pgmacdesign.authenticatingapisampleapp"
+        minSdkVersion 14
+        targetSdkVersion 25
+        multiDexEnabled true
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    dependencies {
+        //Multi-dex. For more info: https://developer.android.com/studio/build/multidex.html
+        compile 'com.android.support:multidex:1.0.1'
+
+        //Progress bar, can be omitted without problems
+        compile 'com.github.zzz40500:android-shapeLoadingView:1.0.3.2'
+
+        //Authenticate SDK
+        compile 'com.github.stevenbward:Authenticating-Android-SDK:0.9.0'
+    }
+}
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+    //Module
+}
+

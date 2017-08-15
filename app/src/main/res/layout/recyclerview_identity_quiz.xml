@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="#ffffff" >
+
+        <TextView
+            android:id="@+id/identity_quiz_question_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="19dp"
+            android:layout_marginTop="19dp"
+            android:text="Q"
+            android:textColor="#4a4a4a"
+            android:textSize="16sp" />
+
+        <RadioGroup
+            android:id="@+id/identity_quiz_radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/identity_quiz_question_tv"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="19dp" >
+
+            <RadioButton
+                android:id="@+id/identity_quiz_radiobutton_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:paddingLeft="13dp"
+                android:text="option one"
+                android:textColor="#4a4a4a"
+                android:textSize="16sp"
+                android:onClick="onClickRadioButton"/>
+
+            <RadioButton
+                android:id="@+id/identity_quiz_radiobutton_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:paddingLeft="13dp"
+                android:text="option two"
+                android:textColor="#4a4a4a"
+                android:textSize="16sp"
+                android:onClick="onClickRadioButton"/>
+
+            <RadioButton
+                android:id="@+id/identity_quiz_radiobutton_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:paddingLeft="13dp"
+                android:text="option three"
+                android:textColor="#4a4a4a"
+                android:textSize="16sp"
+                android:onClick="onClickRadioButton"/>
+
+            <RadioButton
+                android:id="@+id/identity_quiz_radiobutton_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="13dp"
+                android:text="None of these"
+                android:textColor="#4a4a4a"
+                android:textSize="16sp"
+                android:onClick="onClickRadioButton"/>
+        </RadioGroup>
+    </RelativeLayout>
+
+</LinearLayout>

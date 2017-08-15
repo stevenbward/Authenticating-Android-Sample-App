@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/update_user_top_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="20dp"
+        android:gravity="center"
+        android:text="Below is a list of the current User. If you want to update fields, do so here"
+        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/update_user_button"
+        android:layout_below="@+id/update_user_top_tv"
+        android:paddingStart="4dp"
+        android:paddingLeft="4dp"
+        android:paddingEnd="4dp"
+        android:paddingRight="4dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <!-- First Name -->
+            <LinearLayout
+                android:weightSum="100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:id="@+id/update_user_first_name_tv"
+                    android:gravity="left|start|center_vertical"
+                    android:text="First Name"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:id="@+id/update_user_first_name_et"
+                    android:gravity="center|center_vertical"
+                    android:inputType="textPersonName"
+                    android:hint="First Name"
+                    />
+            </LinearLayout>
+            <!-- Separator view -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"
+                android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
+                />
+
+
+            <!-- Last Name -->
+            <LinearLayout
+                android:weightSum="100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:id="@+id/update_user_last_name_tv"
+                    android:gravity="left|start|center_vertical"
+                    android:text="Last Name"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:id="@+id/update_user_last_name_et"
+                    android:gravity="center|center_vertical"
+                    android:inputType="textPersonName"
+                    android:hint="Last Name"
+                    />
+            </LinearLayout>
+            <!-- Separator view -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"
+                android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
+                />
+
+
+            <!-- Email -->
+            <LinearLayout
+                android:weightSum="100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:id="@+id/update_user_email_tv"
+                    android:gravity="left|start|center_vertical"
+                    android:text="Email"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:id="@+id/update_user_email_et"
+                    android:gravity="center|center_vertical"
+                    android:inputType="textEmailAddress"
+                    android:hint="email@email.com"
+                    />
+            </LinearLayout>
+            <!-- Separator view -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"
+                android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
+                />
+
+
+            <!-- Phone number -->
+            <LinearLayout
+                android:weightSum="100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:id="@+id/update_user_phone_tv"
+                    android:gravity="left|start|center_vertical"
+                    android:text="Phone"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:id="@+id/update_user_phone_et"
+                    android:gravity="center|center_vertical"
+                    android:inputType="phone"
+                    android:hint="(213)222-1234"
+                    />
+            </LinearLayout>
+            <!-- Separator view -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"
+                android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
+                />
+
+
+            <!-- Year of Birth -->
+            <LinearLayout
+                android:weightSum="100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:id="@+id/update_user_year_tv"
+                    android:gravity="left|start|center_vertical"
+                    android:text="Year of Birth"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:id="@+id/update_user_year_et"
+                    android:gravity="center|center_vertical"
+                    android:inputType="number"
+                    android:hint="1985"
+                    />
+            </LinearLayout>
+            <!-- Separator view -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"
+                android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
+                />
+
+
+            <!-- Month of Birth -->
+            <LinearLayout
+                android:weightSum="100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:id="@+id/update_user_month_tv"
+                    android:gravity="left|start|center_vertical"
+                    android:text="Month of Birth"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:id="@+id/update_user_month_et"
+                    android:gravity="center|center_vertical"
+                    android:inputType="number"
+                    android:hint="12"
+                    />
+            </LinearLayout>
+            <!-- Separator view -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"
+                android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
+                />
+
+
+            <!-- Day of Birth -->
+            <LinearLayout
+                android:weightSum="100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:id="@+id/update_user_day_tv"
+                    android:gravity="left|start|center_vertical"
+                    android:text="Day of Birth"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:id="@+id/update_user_day_et"
+                    android:gravity="center|center_vertical"
+                    android:inputType="number"
+                    android:hint="31"
+                    />
+            </LinearLayout>
+            <!-- Separator view -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"
+                android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
+                />
+
+
+            <!-- Address -->
+            <LinearLayout
+                android:weightSum="100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:id="@+id/update_user_address_tv"
+                    android:gravity="left|start|center_vertical"
+                    android:text="Address"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:id="@+id/update_user_address_et"
+                    android:gravity="center|center_vertical"
+                    android:inputType="text"
+                    android:hint="123 Fake St"
+                    />
+            </LinearLayout>
+            <!-- Separator view -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"
+                android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
+                />
+
+
+            <!-- City -->
+            <LinearLayout
+                android:weightSum="100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:id="@+id/update_user_city_tv"
+                    android:gravity="left|start|center_vertical"
+                    android:text="City"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:id="@+id/update_user_city_et"
+                    android:gravity="center|center_vertical"
+                    android:inputType="text"
+                    android:hint="Los Angeles"
+                    />
+            </LinearLayout>
+            <!-- Separator view -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"
+                android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
+                />
+
+
+            <!-- State -->
+            <LinearLayout
+                android:weightSum="100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:id="@+id/update_user_state_tv"
+                    android:gravity="left|start|center_vertical"
+                    android:text="State"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:id="@+id/update_user_state_et"
+                    android:gravity="center|center_vertical"
+                    android:inputType="text"
+                    android:maxLength="2"
+                    android:hint="CA"
+                    android:textAllCaps="true"
+                    />
+            </LinearLayout>
+            <!-- Separator view -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"
+                android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
+                />
+
+
+            <!-- Zip -->
+            <LinearLayout
+                android:weightSum="100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:id="@+id/update_user_zip_tv"
+                    android:gravity="left|start|center_vertical"
+                    android:text="Postal Code"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:id="@+id/update_user_zip_et"
+                    android:gravity="center|center_vertical"
+                    android:inputType="number"
+                    android:maxLength="5"
+                    android:hint="90210"
+                    />
+            </LinearLayout>
+            <!-- Separator view -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"
+                android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
+                />
+
+            <!-- SSN -->
+            <LinearLayout
+                android:weightSum="100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:id="@+id/update_user_ssn_tv"
+                    android:gravity="left|start|center_vertical"
+                    android:text="Social Security \n(SEMI-OPTIONAL)"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:id="@+id/update_user_ssn_et"
+                    android:gravity="center|center_vertical"
+                    android:inputType="numberPassword"
+                    android:hint="123456789"
+                    />
+            </LinearLayout>
+            <!-- Separator view -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"
+                android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
+                />
+
+
+        </LinearLayout>
+    </ScrollView>
+    
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:text="Update User"
+        android:id="@+id/update_user_button"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/photoproof_top_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please choose 2 photos to upload and compare. Both should be of you! Click on the cameras to take 2 new pictures"
+        android:gravity="center|center_vertical"
+        android:layout_margin="20dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/photoproof_iv_layout"
+        android:layout_below="@+id/photoproof_top_tv"
+        android:orientation="horizontal"
+        android:weightSum="100"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
+        android:layout_above="@+id/photoproof_button"
+        >
+
+        <ImageView
+            android:id="@+id/photoproof_left_iv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="49.48"
+            android:src="@drawable/ic_menu_camera"
+            android:minHeight="100dp"
+            />
+
+        <ImageView
+            android:id="@+id/photoproof_right_iv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="49.48"
+            android:src="@drawable/ic_menu_camera"
+            android:minHeight="100dp"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/photoproof_button"
+        android:text="Submit Pictures"
+        android:padding="4dp"
+        />
+</RelativeLayout>

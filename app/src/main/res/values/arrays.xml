@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="color_spectrum">
+        <item>#FF0000</item>
+        <item>#FFA500</item>
+        <item>#FFFF00</item>
+        <item>#008000</item>
+        <item>#0000FF</item>
+        <item>#4B0082</item>
+        <item>#EE82EE</item>
+    </string-array>
+</resources>

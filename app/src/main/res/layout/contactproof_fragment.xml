@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    >
+
+    <TextView
+        android:id="@+id/contactproof_top_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter your Cell phone number and Email below in order to receive a text with a code and an email to verify. If you have aleady received a code, enter the code below"
+        android:gravity="center|center_vertical"
+        android:layout_margin="20dp"
+        />
+
+    <LinearLayout
+        android:layout_below="@+id/contactproof_top_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="100"
+        android:orientation="vertical"
+        >
+
+        <!-- Phone Number layout -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50"
+            >
+            <RelativeLayout
+                android:id="@+id/contactproof_phone_number_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <EditText
+                    android:id="@+id/contactproof_phone_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:hint="(203) 111-1111"
+                    android:gravity="center"
+                    />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/contactproof_phone_et"
+                    android:id="@+id/contactproof_phone_submit_button"
+                    android:gravity="center"
+                    android:text="Submit"
+                    />
+
+            </RelativeLayout>
+        </ScrollView>
+
+
+
+        <!-- Email layout -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50"
+            >
+            <RelativeLayout
+                android:id="@+id/contactproof_email_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <EditText
+                    android:id="@+id/contactproof_email_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:hint="email@email.com"
+                    android:gravity="center"
+                    />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/contactproof_email_et"
+                    android:id="@+id/contactproof_email_submit_button"
+                    android:gravity="center"
+                    android:text="Submit"
+                    />
+
+            </RelativeLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

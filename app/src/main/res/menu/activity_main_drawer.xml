@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group
+        android:checkableBehavior="single"
+        >
+        <item android:title="Tests">
+            <menu>
+                <item
+                    android:id="@+id/nav_update_user"
+                    android:icon="@drawable/person_black"
+                    android:title="Update User"
+                    />
+                <item
+                    android:id="@+id/nav_social_proof"
+                    android:icon="@drawable/network_black"
+                    android:title="Social Proof"
+                    />
+                <item
+                    android:id="@+id/nav_contact_proof"
+                    android:icon="@drawable/contact_black"
+                    android:title="Contact Proof"
+                    />
+                <item
+                    android:id="@+id/nav_photo_proof"
+                    android:icon="@drawable/camera_black"
+                    android:title="Photo Proof"
+                    />
+                <item
+                    android:id="@+id/nav_identity_proof"
+                    android:icon="@drawable/identity_black"
+                    android:title="Identity Proof"
+                    />
+                <item
+                    android:id="@+id/nav_background_report"
+                    android:icon="@drawable/background_report_black"
+                    android:title="Background Report "
+                    />
+
+            </menu>
+        </item>
+
+        <item android:title="Api Calls">
+            <menu>
+                <item
+                    android:id="@+id/nav_api_calls_info"
+                    android:icon="@drawable/api_black"
+                    android:title="Api Calls Info"
+                    />
+
+                <item
+                    android:id="@+id/nav_web_links"
+                    android:icon="@drawable/html_logo_black"
+                    android:title="Web Links"
+                    />
+
+            </menu>
+        </item>
+    </group>
+
+
+
+</menu>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="Semi_Transparent1">#20111111</color>
+    <color name="Semi_Transparent2">#30111111</color>
+    <color name="Semi_Transparent3">#40111111</color>
+    <color name="Semi_Transparent4">#50111111</color>
+    <color name="Semi_Transparent5">#69111111</color>
+    <color name="Semi_Transparent6">#79111111</color>
+    <color name="Semi_Transparent7">#89111111</color>
+    <color name="Semi_Transparent8">#99111111</color>
+    <color name="Semi_Transparent9">#A9111111</color>
+
+    <color name="Transparent">#00000000</color>
+
+
+    <color name="nav_item_background_default">#FFFFFF</color>
+    <color name="nav_item_background">#A6A6A6</color>
+
+
+    <color name="white">#FFFFFF</color>
+    <color name="grey">#A6A6A6</color>
+
+    <color name="colorPrimary">#0000FF</color>
+    <color name="colorPrimaryDark">#000099</color>
+    <color name="colorAccent">#FF0000</color>
+</resources>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    >
+
+    <TextView
+        android:id="@+id/backgroundreport_top_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Click the button below to get your background report. Please keep in mind that you MUST take identity proof before you can do this one"
+        android:gravity="center|center_vertical"
+        android:layout_margin="20dp"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/backgroundreport_submit_button"
+        android:text="Submit"
+        android:layout_below="@+id/backgroundreport_top_tv"
+        />
+
+    <TextView
+        android:id="@+id/backgroundreport_bottom_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/backgroundreport_submit_button"
+        android:text=""
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        />
+</RelativeLayout>
