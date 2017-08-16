@@ -42,10 +42,10 @@ public class Constants {
     //Documentation URLs
     public static final String MAIN_DOCUMENTATION_PAGE = "https://www.authenticating.com/api-docs-1/";
     public static final String MAIN_DOCUMENTATION_PAGE_STR = "Main Documentation";
-    public static final String REGISTER_FOR_ACCOUNT = "http://www.google.com";
-    public static final String REGISTER_FOR_ACCOUNT_STR = "Google";
-    public static final String CONTACT_US_PAGE = "http://www.google.com";
-    public static final String CONTACT_US_PAGE_STR = "Google";
+    public static final String REGISTER_FOR_ACCOUNT = "https://www.authenticating.com/";
+    public static final String REGISTER_FOR_ACCOUNT_STR = "Authenticating.com";
+    public static final String CONTACT_US_PAGE = "https://github.com/stevenbward/Authenticating-Android-SDK";
+    public static final String CONTACT_US_PAGE_STR = "SDK Repository";
 
     //Misc
     public static final String[] LV_URLs = {MAIN_DOCUMENTATION_PAGE,

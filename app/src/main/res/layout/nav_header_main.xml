@@ -16,7 +16,7 @@
         android:id="@+id/imageView"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:src="@drawable/fingerprint_heart_white"
+        android:src="@drawable/authenticating_app_logo2"
          />
     <!--
     removed - app:srcCompat="@android:drawable/sym_def_app_icon"
