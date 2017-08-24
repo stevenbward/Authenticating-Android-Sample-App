@@ -26,7 +26,7 @@ android {
         compile 'com.github.zzz40500:android-shapeLoadingView:1.0.3.2'
 
         //Authenticate SDK
-        compile 'com.github.stevenbward:Authenticating-Android-SDK:0.9.3'
+        compile 'com.github.stevenbward:Authenticating-Android-SDK:0.9.4'
     }
 }
 repositories {
