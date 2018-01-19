@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fbutton="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,10 +10,12 @@
         android:id="@+id/update_user_top_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:padding="20dp"
+        android:layout_marginTop="8dp"
+        android:padding="8dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:gravity="center"
-        android:text="Below is a list of the current User. If you want to update fields, do so here"
+        android:text="Update the fields needed here"
         />
     <ScrollView
         android:layout_width="match_parent"
@@ -37,6 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:id="@+id/update_user_fname_layout"
                 >
                 <TextView
                     android:layout_width="0dp"
@@ -56,6 +60,7 @@
                     android:hint="First Name"
                     />
             </LinearLayout>
+
             <!-- Separator view -->
             <View
                 android:layout_width="match_parent"
@@ -67,13 +72,13 @@
                 android:paddingRight="4dp"
                 />
 
-
             <!-- Last Name -->
             <LinearLayout
                 android:weightSum="100"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:id="@+id/update_user_lname_layout"
                 >
                 <TextView
                     android:layout_width="0dp"
@@ -93,6 +98,7 @@
                     android:hint="Last Name"
                     />
             </LinearLayout>
+
             <!-- Separator view -->
             <View
                 android:layout_width="match_parent"
@@ -104,13 +110,13 @@
                 android:paddingRight="4dp"
                 />
 
-
             <!-- Email -->
             <LinearLayout
                 android:weightSum="100"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:id="@+id/update_user_email_layout"
                 >
                 <TextView
                     android:layout_width="0dp"
@@ -130,6 +136,7 @@
                     android:hint="email@email.com"
                     />
             </LinearLayout>
+
             <!-- Separator view -->
             <View
                 android:layout_width="match_parent"
@@ -141,13 +148,13 @@
                 android:paddingRight="4dp"
                 />
 
-
             <!-- Phone number -->
             <LinearLayout
                 android:weightSum="100"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:id="@+id/update_user_phone_layout"
                 >
                 <TextView
                     android:layout_width="0dp"
@@ -167,6 +174,7 @@
                     android:hint="(213)222-1234"
                     />
             </LinearLayout>
+
             <!-- Separator view -->
             <View
                 android:layout_width="match_parent"
@@ -178,13 +186,13 @@
                 android:paddingRight="4dp"
                 />
 
-
             <!-- Year of Birth -->
             <LinearLayout
                 android:weightSum="100"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:id="@+id/update_user_yob_layout"
                 >
                 <TextView
                     android:layout_width="0dp"
@@ -204,6 +212,7 @@
                     android:hint="1985"
                     />
             </LinearLayout>
+
             <!-- Separator view -->
             <View
                 android:layout_width="match_parent"
@@ -215,13 +224,13 @@
                 android:paddingRight="4dp"
                 />
 
-
             <!-- Month of Birth -->
             <LinearLayout
                 android:weightSum="100"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:id="@+id/update_user_mob_layout"
                 >
                 <TextView
                     android:layout_width="0dp"
@@ -241,6 +250,7 @@
                     android:hint="12"
                     />
             </LinearLayout>
+
             <!-- Separator view -->
             <View
                 android:layout_width="match_parent"
@@ -252,13 +262,13 @@
                 android:paddingRight="4dp"
                 />
 
-
             <!-- Day of Birth -->
             <LinearLayout
                 android:weightSum="100"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:id="@+id/update_user_dob_layout"
                 >
                 <TextView
                     android:layout_width="0dp"
@@ -278,6 +288,7 @@
                     android:hint="31"
                     />
             </LinearLayout>
+
             <!-- Separator view -->
             <View
                 android:layout_width="match_parent"
@@ -289,13 +300,13 @@
                 android:paddingRight="4dp"
                 />
 
-
             <!-- Address -->
             <LinearLayout
                 android:weightSum="100"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:id="@+id/update_user_address_layout"
                 >
                 <TextView
                     android:layout_width="0dp"
@@ -315,6 +326,7 @@
                     android:hint="123 Fake St"
                     />
             </LinearLayout>
+
             <!-- Separator view -->
             <View
                 android:layout_width="match_parent"
@@ -326,13 +338,13 @@
                 android:paddingRight="4dp"
                 />
 
-
             <!-- City -->
             <LinearLayout
                 android:weightSum="100"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:id="@+id/update_user_city_layout"
                 >
                 <TextView
                     android:layout_width="0dp"
@@ -352,6 +364,7 @@
                     android:hint="Los Angeles"
                     />
             </LinearLayout>
+
             <!-- Separator view -->
             <View
                 android:layout_width="match_parent"
@@ -363,13 +376,13 @@
                 android:paddingRight="4dp"
                 />
 
-
             <!-- State -->
             <LinearLayout
                 android:weightSum="100"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:id="@+id/update_user_state_layout"
                 >
                 <TextView
                     android:layout_width="0dp"
@@ -391,6 +404,7 @@
                     android:textAllCaps="true"
                     />
             </LinearLayout>
+
             <!-- Separator view -->
             <View
                 android:layout_width="match_parent"
@@ -402,13 +416,13 @@
                 android:paddingRight="4dp"
                 />
 
-
             <!-- Zip -->
             <LinearLayout
                 android:weightSum="100"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:id="@+id/update_user_zipcode_layout"
                 >
                 <TextView
                     android:layout_width="0dp"
@@ -424,11 +438,127 @@
                     android:layout_weight="60"
                     android:id="@+id/update_user_zip_et"
                     android:gravity="center|center_vertical"
-                    android:inputType="number"
-                    android:maxLength="5"
+                    android:inputType="text"
+                    android:maxLength="15"
                     android:hint="90210"
                     />
             </LinearLayout>
+
+            <!-- Separator view -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"
+                android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
+                />
+
+            <!-- Building Number -->
+            <LinearLayout
+                android:weightSum="100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/update_user_buildingnumber_layout"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:id="@+id/update_user_buildingnumber_tv"
+                    android:gravity="left|start|center_vertical"
+                    android:text="Home / Apartment # (Canada Only)"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:id="@+id/update_user_buildingnumber_et"
+                    android:gravity="center|center_vertical"
+                    android:inputType="text"
+                    android:hint="175"
+                    />
+            </LinearLayout>
+
+            <!-- Separator view -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"
+                android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
+                />
+
+            <!-- Street -->
+            <LinearLayout
+                android:weightSum="100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/update_user_street_layout"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:id="@+id/update_user_street_tv"
+                    android:gravity="left|start|center_vertical"
+                    android:text="Street (Canada Only)"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:id="@+id/update_user_street_et"
+                    android:gravity="center|center_vertical"
+                    android:inputType="text"
+                    android:hint="Rue Delaney"
+                    />
+            </LinearLayout>
+
+            <!-- Separator view -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"
+                android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
+                />
+
+            <!-- Province -->
+            <LinearLayout
+                android:weightSum="100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/update_user_province_layout"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:id="@+id/update_user_province_tv"
+                    android:gravity="left|start|center_vertical"
+                    android:text="Province (Canada Only)"
+                    />
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:id="@+id/update_user_province"
+                    android:gravity="center|center_vertical"
+                    android:inputType="text"
+                    android:textAllCaps="true"
+                    android:hint="ON"
+                    />
+            </LinearLayout>
+
             <!-- Separator view -->
             <View
                 android:layout_width="match_parent"
@@ -446,6 +576,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:id="@+id/update_user_ssn_layout"
                 >
                 <TextView
                     android:layout_width="0dp"
@@ -453,7 +584,7 @@
                     android:layout_weight="40"
                     android:id="@+id/update_user_ssn_tv"
                     android:gravity="left|start|center_vertical"
-                    android:text="Social Security \n(SEMI-OPTIONAL)"
+                    android:text="Social Security (SEMI-OPTIONAL)"
                     />
                 <EditText
                     android:layout_width="0dp"
@@ -465,6 +596,7 @@
                     android:hint="123456789"
                     />
             </LinearLayout>
+
             <!-- Separator view -->
             <View
                 android:layout_width="match_parent"
@@ -479,12 +611,21 @@
 
         </LinearLayout>
     </ScrollView>
-    
+
+
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
+        android:layout_height="wrap_content"
         android:text="Update User"
         android:id="@+id/update_user_button"
         android:layout_alignParentBottom="true"
+        android:padding="4dp"
+        android:textColor="@color/white"
+        fbutton:buttonColor="@color/colorPrimary"
+        fbutton:shadowColor="@color/colorPrimaryDark"
+        fbutton:shadowEnabled="true"
+        fbutton:shadowHeight="5dp"
+        fbutton:cornerRadius="5dp"
+        android:layout_margin="8dp"
         />
 </RelativeLayout>

@@ -46,7 +46,7 @@ public class IdentityProofFragment extends Fragment implements View.OnClickListe
     private MainActivity activity;
     private MainActivityListener listener;
 
-    private Button identityproof_top_button, identityproof_bottom_button;
+    private Button identityproof_top_button, identityproof_bottom_button, identityproof_nonusa_verify;
     private ListView identityproof_listview;
 
     private QuizListAdapter adapter;
@@ -108,11 +108,14 @@ public class IdentityProofFragment extends Fragment implements View.OnClickListe
                 R.id.identityproof_top_button);
         identityproof_bottom_button = (Button) view.findViewById(
                 R.id.identityproof_bottom_button);
+        identityproof_nonusa_verify = (Button) view.findViewById(
+                R.id.identityproof_nonusa_verify);
         identityproof_listview = (ListView) view.findViewById(
                 R.id.identityproof_listview);
 
         identityproof_top_button.setOnClickListener(this);
         identityproof_bottom_button.setOnClickListener(this);
+        identityproof_nonusa_verify.setOnClickListener(this);
 
     }
 
@@ -138,6 +141,33 @@ public class IdentityProofFragment extends Fragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+
+            case R.id.identityproof_nonusa_verify:
+                listener.showOrHideLoadingAnimation(true);
+                AuthenticatingAPICalls.authenticateProfile(
+                        new OnTaskCompleteListener() {
+                       @Override
+                       public void onTaskComplete(Object o, int i) {
+                           listener.showOrHideLoadingAnimation(false);
+                           if(i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE_OBJ){
+                               SimpleResponseObj s = (SimpleResponseObj) o;
+                               if(s != null) {
+                                   SimpleResponseObj.SimpleResponse ss = s.getSimpleResponse();
+                                   if(ss != null){
+                                       if(ss.getSuccess()){
+                                           //Test was successfully sent.
+                                       } else {
+                                           //Test was not successfully sent
+                                       }
+                                   }
+                               }
+                           }
+                       }
+                   }, Constants.SAMPLE_COMPANY_API_KEY,
+                        MyApplication.getSharedPrefsInstance().getString(
+                                Constants.ACCESS_CODE, ""));
+                break;
+
             case R.id.identityproof_top_button:
                 listener.showOrHideLoadingAnimation(true);
                 AuthenticatingAPICalls.getQuiz(

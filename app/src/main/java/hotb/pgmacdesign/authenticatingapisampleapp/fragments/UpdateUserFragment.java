@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import hotb.pgmacdesign.authenticatingapisampleapp.R;
@@ -15,6 +16,7 @@ import hotb.pgmacdesign.authenticatingapisampleapp.activities.MainActivity;
 import hotb.pgmacdesign.authenticatingapisampleapp.interfaces.MainActivityListener;
 import hotb.pgmacdesign.authenticatingapisampleapp.misc.Constants;
 import hotb.pgmacdesign.authenticatingapisampleapp.misc.MyApplication;
+import hotb.pgmacdesign.authenticatingapisampleapp.misc.SimpleUtilities;
 import hotb.pgmacdesign.authenticatingsdk.datamodels.AuthenticatingException;
 import hotb.pgmacdesign.authenticatingsdk.datamodels.UserHeader;
 import hotb.pgmacdesign.authenticatingsdk.interfaces.OnTaskCompleteListener;
@@ -39,12 +41,20 @@ public class UpdateUserFragment extends Fragment implements View.OnClickListener
             update_user_email_tv, update_user_phone_tv, update_user_year_tv,
             update_user_month_tv, update_user_day_tv, update_user_address_tv,
             update_user_city_tv, update_user_state_tv, update_user_zip_tv,
-            update_user_ssn_tv;
+            update_user_ssn_tv, update_user_buildingnumber_tv,
+            update_user_street_tv, update_user_province_tv;
     private EditText update_user_first_name_et, update_user_last_name_et,
             update_user_email_et, update_user_phone_et, update_user_year_et,
             update_user_month_et, update_user_day_et, update_user_address_et,
             update_user_city_et, update_user_state_et, update_user_zip_et,
-            update_user_ssn_et;
+            update_user_ssn_et, update_user_buildingnumber_et,
+            update_user_street_et, update_user_province;
+    private LinearLayout update_user_fname_layout, update_user_lname_layout,
+            update_user_email_layout, update_user_phone_layout, update_user_yob_layout,
+            update_user_mob_layout, update_user_dob_layout, update_user_address_layout,
+            update_user_city_layout, update_user_state_layout, update_user_zipcode_layout,
+            update_user_buildingnumber_layout, update_user_street_layout,
+            update_user_province_layout, update_user_ssn_layout;
     private TextView update_user_top_tv;
     private Button update_user_button;
 
@@ -115,6 +125,8 @@ public class UpdateUserFragment extends Fragment implements View.OnClickListener
                 R.id.update_user_state_tv);
         update_user_zip_tv = (TextView) view.findViewById(
                 R.id.update_user_zip_tv);
+        update_user_top_tv = (TextView) view.findViewById(
+                R.id.update_user_top_tv);
         update_user_ssn_tv = (TextView) view.findViewById(
                 R.id.update_user_ssn_tv);
 
@@ -142,6 +154,44 @@ public class UpdateUserFragment extends Fragment implements View.OnClickListener
                 R.id.update_user_zip_et);
         update_user_ssn_et = (EditText) view.findViewById(
                 R.id.update_user_ssn_et);
+        update_user_buildingnumber_et = (EditText) view.findViewById(
+                R.id.update_user_buildingnumber_et);
+        update_user_street_et = (EditText) view.findViewById(
+                R.id.update_user_street_et);
+        update_user_province = (EditText) view.findViewById(
+                R.id.update_user_province);
+
+        update_user_fname_layout = (LinearLayout) view.findViewById(
+                R.id.update_user_fname_layout);
+        update_user_lname_layout = (LinearLayout) view.findViewById(
+                R.id.update_user_lname_layout);
+        update_user_email_layout = (LinearLayout) view.findViewById(
+                R.id.update_user_email_layout);
+        update_user_phone_layout = (LinearLayout) view.findViewById(
+                R.id.update_user_phone_layout);
+        update_user_yob_layout = (LinearLayout) view.findViewById(
+                R.id.update_user_yob_layout);
+        update_user_mob_layout = (LinearLayout) view.findViewById(
+                R.id.update_user_mob_layout);
+        update_user_dob_layout = (LinearLayout) view.findViewById(
+                R.id.update_user_dob_layout);
+        update_user_address_layout = (LinearLayout) view.findViewById(
+                R.id.update_user_address_layout);
+        update_user_city_layout = (LinearLayout) view.findViewById(
+                R.id.update_user_city_layout);
+        update_user_state_layout = (LinearLayout) view.findViewById(
+                R.id.update_user_state_layout);
+        update_user_zipcode_layout = (LinearLayout) view.findViewById(
+                R.id.update_user_zipcode_layout);
+        update_user_buildingnumber_layout = (LinearLayout) view.findViewById(
+                R.id.update_user_buildingnumber_layout);
+        update_user_street_layout = (LinearLayout) view.findViewById(
+                R.id.update_user_street_layout);
+        update_user_province_layout = (LinearLayout) view.findViewById(
+                R.id.update_user_province_layout);
+        update_user_ssn_layout = (LinearLayout) view.findViewById(
+                R.id.update_user_ssn_layout);
+
 
         update_user_top_tv = (TextView) view.findViewById(
                 R.id.update_user_top_tv);
@@ -155,18 +205,42 @@ public class UpdateUserFragment extends Fragment implements View.OnClickListener
 
     private void updateUserTVs() {
         if(user != null){
-            update_user_first_name_et.setText(user.getFirstName());
-            update_user_last_name_et.setText(user.getLastName());
-            update_user_email_et.setText(user.getEmail());
-            update_user_phone_et.setText(user.getPhone());
-            update_user_month_et.setText(user.getMonth());
-            update_user_year_et.setText(user.getYear());
-            update_user_day_et.setText(user.getDay());
-            update_user_address_et.setText(user.getAddress());
-            update_user_city_et.setText(user.getCity());
-            update_user_state_et.setText(user.getState());
-            update_user_zip_et.setText(user.getZipcode());
+            update_user_first_name_et.setText("" + user.getFirstName());
+            update_user_last_name_et.setText("" + user.getLastName());
+            update_user_email_et.setText("" + user.getEmail());
+            update_user_phone_et.setText("" + user.getPhone());
+            update_user_month_et.setText("" + user.getMonth());
+            update_user_year_et.setText("" + user.getYear());
+            update_user_day_et.setText("" + user.getDay());
+            update_user_address_et.setText("" + user.getAddress());
+            update_user_city_et.setText("" + user.getCity());
+            update_user_state_et.setText("" + user.getState());
+            update_user_zip_et.setText("" + user.getZipcode());
+            update_user_buildingnumber_et.setText("" + user.getBuildingNumber());
+            update_user_street_et.setText("" + user.getStreet());
+            update_user_province.setText("" + user.getProvince());
             update_user_ssn_et.setText("");
+
+            String country = user.getCountry();
+            if(!SimpleUtilities.isNullOrEmpty(country)) {
+                if(country.equalsIgnoreCase("CAN")){
+                    update_user_province_layout.setVisibility(View.VISIBLE);
+                    update_user_address_layout.setVisibility(View.GONE);
+                    update_user_state_layout.setVisibility(View.GONE);
+                    update_user_buildingnumber_layout.setVisibility(View.VISIBLE);
+                    update_user_street_layout.setVisibility(View.VISIBLE);
+                    update_user_province_layout.setVisibility(View.VISIBLE);
+
+                } else if (country.equalsIgnoreCase("USA")){
+                    update_user_province_layout.setVisibility(View.GONE);
+                    update_user_address_layout.setVisibility(View.VISIBLE);
+                    update_user_state_layout.setVisibility(View.VISIBLE);
+                    update_user_buildingnumber_layout.setVisibility(View.GONE);
+                    update_user_street_layout.setVisibility(View.GONE);
+                    update_user_province_layout.setVisibility(View.GONE);
+
+                } //Can add more here
+            }
         }
     }
 
@@ -185,6 +259,9 @@ public class UpdateUserFragment extends Fragment implements View.OnClickListener
                 String city = update_user_city_et.getText().toString();
                 String state = update_user_state_et.getText().toString();
                 String zipCode = update_user_zip_et.getText().toString();
+                String buildingNumber = update_user_buildingnumber_et.getText().toString();
+                String street = update_user_street_et.getText().toString();
+                String province = update_user_province.getText().toString();
                 String year = update_user_year_et.getText().toString();
                 Integer yearInt = null;
                 String month = update_user_month_et.getText().toString();
@@ -225,7 +302,7 @@ public class UpdateUserFragment extends Fragment implements View.OnClickListener
                         }, Constants.SAMPLE_COMPANY_API_KEY,
                         MyApplication.getSharedPrefsInstance().getString(Constants.ACCESS_CODE, ""),
                         firstName, lastName, yearInt, monthInt, dayInt, address,
-                        city, state, zipCode, email, phone, ssn
+                        city, state, zipCode, street, province, buildingNumber, email, phone, ssn
                 );
                 break;
         }

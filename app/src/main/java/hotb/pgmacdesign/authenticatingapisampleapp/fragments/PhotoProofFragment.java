@@ -8,12 +8,16 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,18 +47,25 @@ public class PhotoProofFragment extends Fragment implements
     public static final int LEFT_SIDE = 333;
     public static final int RIGHT_SIDE = 444;
 
+    enum PhotoType {
+        comparePhotos, uploadId
+    }
+
     private String leftPhotoPath, rightPhotoPath;
     private File leftPhotoFile, rightPhotoFile;
     private Uri leftPhotoUri, rightPhotoUri;
     private Bitmap leftBitmap, rightBitmap;
+    private PhotoType photoType;
 
     private static PhotoProofFragment instance;
 
     //UI
-    private TextView photoproof_top_tv;
+    private TextView photoproof_top_tv, photoproof_right_iv_tv, photoproof_left_iv_tv;
+    private Spinner photoproof_spinner;
     private ImageView photoproof_left_iv, photoproof_right_iv;
     private Button photoproof_button;
 
+    private ArrayAdapter<String> spinnerAdapter;
     private MainActivity activity;
     private MainActivityListener listener;
 
@@ -97,7 +108,11 @@ public class PhotoProofFragment extends Fragment implements
      * Setup Variables
      */
     private void initVariables(){
-        leftPictureSet = this.rightPictureSet = false;
+        this.leftPictureSet = this.rightPictureSet = false;
+        this.photoType = PhotoType.uploadId;
+        String[] strs = {"Upload ID", "Compare Photos"};
+        this.spinnerAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1, strs);
     }
 
     /**
@@ -105,14 +120,49 @@ public class PhotoProofFragment extends Fragment implements
      * @param view
      */
     private void initUI(View view) {
+        photoproof_spinner = (Spinner) view.findViewById(R.id.photoproof_spinner);
         photoproof_top_tv = (TextView) view.findViewById(R.id.photoproof_top_tv);
+        photoproof_right_iv_tv = (TextView) view.findViewById(R.id.photoproof_right_iv_tv);
+        photoproof_left_iv_tv = (TextView) view.findViewById(R.id.photoproof_left_iv_tv);
         photoproof_left_iv = (ImageView) view.findViewById(R.id.photoproof_left_iv);
         photoproof_right_iv = (ImageView) view.findViewById(R.id.photoproof_right_iv);
         photoproof_button = (Button) view.findViewById(R.id.photoproof_button);
 
         photoproof_button.setOnClickListener(this);
+        photoproof_button.setTransformationMethod(null);
         photoproof_right_iv.setOnClickListener(this);
         photoproof_left_iv.setOnClickListener(this);
+
+        photoproof_spinner.setAdapter(spinnerAdapter);
+        photoproof_spinner.setSelection(0);
+        setTextFields(0);
+        photoproof_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0){
+                    photoType = PhotoType.uploadId;
+                } else if(position == 1){
+                    photoType = PhotoType.comparePhotos;
+                }
+                setTextFields(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+    private void setTextFields(int i) {
+        if(i == 0){
+            photoproof_left_iv_tv.setText("-- ID Front --");
+            photoproof_right_iv_tv.setText("-- ID Back --");
+            photoproof_left_iv_tv.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
+            photoproof_right_iv_tv.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
+        } else if (i == 1){
+            photoproof_left_iv_tv.setText("-- Img 1 --");
+            photoproof_right_iv_tv.setText("-- Img 2 --");
+            photoproof_left_iv_tv.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
+            photoproof_right_iv_tv.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
+        }
     }
 
     @Override

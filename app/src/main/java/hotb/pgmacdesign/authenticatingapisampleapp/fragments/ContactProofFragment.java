@@ -164,7 +164,7 @@ public class ContactProofFragment extends Fragment implements View.OnClickListen
                   }
               }, Constants.SAMPLE_COMPANY_API_KEY,
                         MyApplication.getSharedPrefsInstance().getString(Constants.ACCESS_CODE, ""),
-                        null, null, null, null, null, null, null, null, null, email, null, null);
+                        null, null, null, null, null, null, null, null, null, null, null, null, email, null, null);
                 break;
 
             case R.id.contactproof_phone_submit_button:

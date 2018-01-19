@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements
 
         setContentView(R.layout.activity_main);
         WebCallsLogging.setJsonLogging(true);
-        //Check permissions. Please make sure to do this upon the request, not how I have it here
+        //Check permissions. Please make sure to do this upon the request, not when the app loads
         if(ContextCompat.checkSelfPermission(
                 this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED  ||

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "hotb.pgmacdesign.authenticatingapisampleapp"
         minSdkVersion 14
@@ -25,14 +25,24 @@ android {
         //Progress bar, can be omitted without problems
         compile 'com.github.zzz40500:android-shapeLoadingView:1.0.3.2'
 
-        //Authenticate SDK
-        compile 'com.github.stevenbward:Authenticating-Android-SDK:0.9.8'
+        //Authenticating SDK
+        compile 'com.github.stevenbward:Authenticating-Android-SDK:1.0.6'
+        compile 'com.squareup.retrofit2:retrofit:2.3.0'
+        compile 'com.squareup.okhttp3:okhttp:3.9.0'
+        compile 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+        //Type-safe HTTP client for Android and Java: https://github.com/square/retrofit
+        compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+        //OKIO. Link: https://github.com/square/okio
+        compile 'com.squareup.okio:okio:1.13.0'
+        //GSON. Link https://github.com/google/gson
+        compile 'com.google.code.gson:gson:2.8.1'
     }
 }
 repositories {
     maven {
         url "https://jitpack.io"
     }
+    google()
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')

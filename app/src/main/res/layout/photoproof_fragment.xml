@@ -12,9 +12,71 @@
         android:layout_margin="20dp"
         />
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/photoproof_top_tv"
+        android:id="@+id/photoproof_spinner_layout"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="Type of Upload: "
+            android:textColor="@color/colorPrimary"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:id="@+id/tv"
+            />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/photoproof_spinner"
+            android:gravity="center"
+            android:layout_toEndOf="@+id/tv"
+            android:layout_toRightOf="@+id/tv"
+            android:background="@color/grey"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="100"
+        android:layout_below="@+id/photoproof_spinner_layout"
+        android:id="@+id/photoproof_tvs_layout"
+        android:layout_marginTop="2dp"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:id="@+id/photoproof_left_iv_tv"
+            android:text=""
+            android:gravity="center|center_horizontal"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:id="@+id/photoproof_right_iv_tv"
+            android:text=""
+            android:gravity="center|center_horizontal"
+            />
+
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/photoproof_iv_layout"
-        android:layout_below="@+id/photoproof_top_tv"
+        android:layout_below="@+id/photoproof_tvs_layout"
         android:orientation="horizontal"
         android:weightSum="100"
         android:layout_width="match_parent"
