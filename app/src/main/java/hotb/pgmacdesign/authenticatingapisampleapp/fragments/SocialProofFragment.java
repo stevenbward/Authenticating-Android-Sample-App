@@ -17,7 +17,7 @@ import hotb.pgmacdesign.authenticatingapisampleapp.interfaces.MainActivityListen
 import hotb.pgmacdesign.authenticatingapisampleapp.misc.Constants;
 import hotb.pgmacdesign.authenticatingapisampleapp.misc.MyApplication;
 import hotb.pgmacdesign.authenticatingsdk.datamodels.AuthenticatingException;
-import hotb.pgmacdesign.authenticatingsdk.datamodels.SimpleResponseObj;
+import hotb.pgmacdesign.authenticatingsdk.datamodels.SimpleResponse;
 import hotb.pgmacdesign.authenticatingsdk.interfaces.OnTaskCompleteListener;
 import hotb.pgmacdesign.authenticatingsdk.networking.AuthenticatingAPICalls;
 import hotb.pgmacdesign.authenticatingsdk.networking.AuthenticatingConstants;
@@ -129,10 +129,10 @@ public class SocialProofFragment extends Fragment implements View.OnClickListene
                             AuthenticatingException e = (AuthenticatingException) o;
                             L.toast(getActivity(), "An Error has occurred: " +
                                     e.getAuthErrorString());
-                        } else if (i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE_OBJ){
-                            SimpleResponseObj s = (SimpleResponseObj) o;
+                        } else if (i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE){
+                            SimpleResponse s = (SimpleResponse) o;
                             L.Toast(getActivity(), "Call was successful == " +
-                                    s.getSimpleResponse().getSuccess());
+                                    s.getSuccessful());
                         }
                     }
                 }, Constants.SAMPLE_COMPANY_API_KEY,

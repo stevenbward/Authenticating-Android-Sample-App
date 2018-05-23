@@ -26,8 +26,8 @@ import hotb.pgmacdesign.authenticatingapisampleapp.interfaces.MainActivityListen
 import hotb.pgmacdesign.authenticatingapisampleapp.misc.Constants;
 import hotb.pgmacdesign.authenticatingapisampleapp.misc.MyApplication;
 import hotb.pgmacdesign.authenticatingsdk.datamodels.AuthenticatingException;
-import hotb.pgmacdesign.authenticatingsdk.datamodels.QuizObjectHeader;
-import hotb.pgmacdesign.authenticatingsdk.datamodels.SimpleResponseObj;
+import hotb.pgmacdesign.authenticatingsdk.datamodels.QuizObject;
+import hotb.pgmacdesign.authenticatingsdk.datamodels.SimpleResponse;
 import hotb.pgmacdesign.authenticatingsdk.datamodels.VerifyQuizObj;
 import hotb.pgmacdesign.authenticatingsdk.interfaces.OnTaskCompleteListener;
 import hotb.pgmacdesign.authenticatingsdk.networking.AuthenticatingAPICalls;
@@ -46,12 +46,12 @@ public class IdentityProofFragment extends Fragment implements View.OnClickListe
     private MainActivity activity;
     private MainActivityListener listener;
 
-    private Button identityproof_top_button, identityproof_bottom_button, identityproof_nonusa_verify;
+    private Button identityproof_top_button, identityproof_bottom_button;
     private ListView identityproof_listview;
 
     private QuizListAdapter adapter;
-    private QuizObjectHeader.QuizObject quizObject;
-    private List<QuizObjectHeader.QuizQuestion> questions;
+    private QuizObject quizObject;
+    private List<QuizObject.QuizQuestion> questions;
     private List<VerifyQuizObj.Answer> answers;
     private String quizId, transactionId, responseUniqueId;
     private boolean haveTestQuestions, bottomButtonIsShowing, topButtonIsShowing;
@@ -108,14 +108,11 @@ public class IdentityProofFragment extends Fragment implements View.OnClickListe
                 R.id.identityproof_top_button);
         identityproof_bottom_button = (Button) view.findViewById(
                 R.id.identityproof_bottom_button);
-        identityproof_nonusa_verify = (Button) view.findViewById(
-                R.id.identityproof_nonusa_verify);
         identityproof_listview = (ListView) view.findViewById(
                 R.id.identityproof_listview);
 
         identityproof_top_button.setOnClickListener(this);
         identityproof_bottom_button.setOnClickListener(this);
-        identityproof_nonusa_verify.setOnClickListener(this);
 
     }
 
@@ -142,32 +139,6 @@ public class IdentityProofFragment extends Fragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
 
-            case R.id.identityproof_nonusa_verify:
-                listener.showOrHideLoadingAnimation(true);
-                AuthenticatingAPICalls.authenticateProfile(
-                        new OnTaskCompleteListener() {
-                       @Override
-                       public void onTaskComplete(Object o, int i) {
-                           listener.showOrHideLoadingAnimation(false);
-                           if(i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE_OBJ){
-                               SimpleResponseObj s = (SimpleResponseObj) o;
-                               if(s != null) {
-                                   SimpleResponseObj.SimpleResponse ss = s.getSimpleResponse();
-                                   if(ss != null){
-                                       if(ss.getSuccess()){
-                                           //Test was successfully sent.
-                                       } else {
-                                           //Test was not successfully sent
-                                       }
-                                   }
-                               }
-                           }
-                       }
-                   }, Constants.SAMPLE_COMPANY_API_KEY,
-                        MyApplication.getSharedPrefsInstance().getString(
-                                Constants.ACCESS_CODE, ""));
-                break;
-
             case R.id.identityproof_top_button:
                 listener.showOrHideLoadingAnimation(true);
                 AuthenticatingAPICalls.getQuiz(
@@ -179,9 +150,9 @@ public class IdentityProofFragment extends Fragment implements View.OnClickListe
                                     AuthenticatingException e = (AuthenticatingException) o;
                                     L.Toast(getActivity(), "An error has Occurred: " +
                                             e.getAuthErrorString());
-                                } else if (i == AuthenticatingConstants.TAG_QUIZ_QUESTIONS_HEADER) {
-                                    QuizObjectHeader quizes = (QuizObjectHeader) o;
-                                    quizObject = quizes.getQuizObject();
+                                } else if (i == AuthenticatingConstants.TAG_QUIZ_QUESTIONS) {
+                                    QuizObject quizes = (QuizObject) o;
+                                    questions = quizes.getQuizQuestions();
                                     if(quizObject != null){
                                         questions = quizObject.getQuizQuestions();
                                     }
@@ -231,7 +202,7 @@ public class IdentityProofFragment extends Fragment implements View.OnClickListe
                                 listener.showOrHideLoadingAnimation(false);
 
                                 //Regardless of pass or fail, make sure to clear data
-                                questions = new ArrayList<QuizObjectHeader.QuizQuestion>();
+                                questions = new ArrayList<QuizObject.QuizQuestion>();
                                 answers = new ArrayList<VerifyQuizObj.Answer>();
                                 adapter.clearData();
                                 haveTestQuestions = false;
@@ -241,14 +212,10 @@ public class IdentityProofFragment extends Fragment implements View.OnClickListe
                                     AuthenticatingException e = (AuthenticatingException) o;
                                     L.Toast(getActivity(), "An error has Occurred: " +
                                             e.getAuthErrorString());
-                                } else if (i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE_OBJ) {
-                                    SimpleResponseObj s = (SimpleResponseObj) o;
-                                    if(s != null) {
-                                        SimpleResponseObj.SimpleResponse ss = s.getSimpleResponse();
-                                        if(ss != null){
-                                            boolean passedTest = ss.getSuccess();
-                                            //Do whatever from here
-                                        }
+                                } else if (i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE) {
+                                    SimpleResponse s = (SimpleResponse) o;
+                                    if(s.getSuccessful()){
+                                        //Success. Do whatever from here
                                     }
                                 }
                             }
@@ -262,15 +229,15 @@ public class IdentityProofFragment extends Fragment implements View.OnClickListe
     }
 
 
-    private class QuizListAdapter extends ArrayAdapter<QuizObjectHeader.QuizQuestion> implements View.OnClickListener {
+    private class QuizListAdapter extends ArrayAdapter<QuizObject.QuizQuestion> implements View.OnClickListener {
 
         private Context context;
-        private List<QuizObjectHeader.QuizQuestion> mListObjects;
+        private List<QuizObject.QuizQuestion> mListObjects;
         private List<VerifyQuizObj.Answer> answers;
-        private QuizObjectHeader.Choice[] choices;
+        private QuizObject.Choice[] choices;
         private Map<String, String> answersMap;
 
-        public QuizListAdapter(@NonNull Context context, List<QuizObjectHeader.QuizQuestion> mListObjects) {
+        public QuizListAdapter(@NonNull Context context, List<QuizObject.QuizQuestion> mListObjects) {
             super(context, R.layout.recyclerview_identity_quiz, mListObjects);
             this.context = context;
             this.mListObjects = mListObjects;

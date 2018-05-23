@@ -40,7 +40,7 @@ public class Constants {
     };
 
     //Documentation URLs
-    public static final String MAIN_DOCUMENTATION_PAGE = "https://www.authenticating.com/api-docs-1/";
+    public static final String MAIN_DOCUMENTATION_PAGE = "https://docs.authenticating.com";
     public static final String MAIN_DOCUMENTATION_PAGE_STR = "Main Documentation";
     public static final String REGISTER_FOR_ACCOUNT = "https://www.authenticating.com/";
     public static final String REGISTER_FOR_ACCOUNT_STR = "Authenticating.com";
@@ -56,6 +56,7 @@ public class Constants {
             "getUser", "updateUser", "comparePhotos",
             "verifyPhone", "verifyPhoneCode", "getAvailableNetworks",
             "verifySocialNetworks", "getQuizRequest",
-            "verifyQuiz", "generateCriminalReport", "verifyEmail"
+            "verifyQuiz", "generateCriminalReport", "verifyEmail", "uploadId", "uploadIdEnhanced",
+            "checkUploadId", "uploadPassport", "checkUploadPassport"
     };
 }

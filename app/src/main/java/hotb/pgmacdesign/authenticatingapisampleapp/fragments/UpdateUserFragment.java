@@ -18,7 +18,7 @@ import hotb.pgmacdesign.authenticatingapisampleapp.misc.Constants;
 import hotb.pgmacdesign.authenticatingapisampleapp.misc.MyApplication;
 import hotb.pgmacdesign.authenticatingapisampleapp.misc.SimpleUtilities;
 import hotb.pgmacdesign.authenticatingsdk.datamodels.AuthenticatingException;
-import hotb.pgmacdesign.authenticatingsdk.datamodels.UserHeader;
+import hotb.pgmacdesign.authenticatingsdk.datamodels.User;
 import hotb.pgmacdesign.authenticatingsdk.interfaces.OnTaskCompleteListener;
 import hotb.pgmacdesign.authenticatingsdk.networking.AuthenticatingAPICalls;
 import hotb.pgmacdesign.authenticatingsdk.networking.AuthenticatingConstants;
@@ -34,7 +34,7 @@ public class UpdateUserFragment extends Fragment implements View.OnClickListener
     private MainActivity activity;
     private MainActivityListener listener;
 
-    private UserHeader.User user;
+    private User user;
 
     //UI
     private TextView update_user_first_name_tv, update_user_last_name_tv,
@@ -249,7 +249,7 @@ public class UpdateUserFragment extends Fragment implements View.OnClickListener
         switch (v.getId()){
             case R.id.update_user_button:
                 if(user == null){
-                    user = new UserHeader.User();
+                    user = new User();
                 }
                 String email = update_user_email_et.getText().toString();
                 String phone = update_user_phone_et.getText().toString();
@@ -287,12 +287,9 @@ public class UpdateUserFragment extends Fragment implements View.OnClickListener
                                     AuthenticatingException e = (AuthenticatingException) o;
                                     L.Toast(getActivity(), "A error has occurred: " + e.getAuthErrorString());
                                 }
-                                if(i == AuthenticatingConstants.TAG_USER_HEADER){
+                                if(i == AuthenticatingConstants.TAG_USER){
                                     L.toast(getActivity(), "Your account has been Updated");
-                                    UserHeader userHeader = (UserHeader) o;
-                                    if(userHeader != null) {
-                                        UserHeader.User user = userHeader.getUser();
-                                    }
+                                    User user = (User) o;
 
                                 } else {
                                     L.Toast(getActivity(), "An unknown error has occurred");
@@ -317,18 +314,13 @@ public class UpdateUserFragment extends Fragment implements View.OnClickListener
                     @Override
                     public void onTaskComplete(Object o, int i) {
                         listener.showOrHideLoadingAnimation(false);
-                        if(i == AuthenticatingConstants.TAG_USER_HEADER){
+                        if(i == AuthenticatingConstants.TAG_USER){
                             //Success
-                            UserHeader returnedUser = (UserHeader)o;
-                            try {
-                                user = returnedUser.getUser();
-                                updateUserTVs();
-                            } catch (Exception e){
-                                user = new UserHeader.User();
-                            }
+                            user = (User)o;
+                            updateUserTVs();
                         } else {
                             //Not a success, no user
-                            user = new UserHeader.User();
+                            user = new User();
                         }
                     }
                 }, Constants.SAMPLE_COMPANY_API_KEY,

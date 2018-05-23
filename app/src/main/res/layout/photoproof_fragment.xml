@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/lib/com.github.jlmd"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <!--
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    -->
 
     <TextView
         android:id="@+id/photoproof_top_tv"
@@ -11,7 +18,6 @@
         android:gravity="center|center_vertical"
         android:layout_margin="20dp"
         />
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,7 +31,7 @@
             android:layout_height="40dp"
             android:gravity="center_vertical"
             android:text="Type of Upload: "
-            android:textColor="@color/colorPrimary"
+            android:textColor="#FF0000"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:id="@+id/tv"
@@ -37,7 +43,7 @@
             android:gravity="center"
             android:layout_toEndOf="@+id/tv"
             android:layout_toRightOf="@+id/tv"
-            android:background="@color/grey"
+            android:background="#D3D3D3"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             />
@@ -60,6 +66,7 @@
             android:layout_weight="50"
             android:id="@+id/photoproof_left_iv_tv"
             android:text=""
+            android:textColor="#000000"
             android:gravity="center|center_horizontal"
             />
 
@@ -69,14 +76,27 @@
             android:layout_weight="50"
             android:id="@+id/photoproof_right_iv_tv"
             android:text=""
+            android:textColor="#000000"
             android:gravity="center|center_horizontal"
             />
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="(Reset Images)"
+        android:textColor="#FF0000"
+        android:textSize="17sp"
+        android:gravity="center"
+        android:layout_below="@+id/photoproof_tvs_layout"
+        android:id="@+id/photoproof_reset_tv"
+        />
+
     <LinearLayout
         android:id="@+id/photoproof_iv_layout"
-        android:layout_below="@+id/photoproof_tvs_layout"
+        android:layout_below="@+id/photoproof_reset_tv"
         android:orientation="horizontal"
         android:weightSum="100"
         android:layout_width="match_parent"
@@ -107,12 +127,30 @@
 
     </LinearLayout>
 
+    <!-- Upload photo button -->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/photoproof_status_button"
+        android:id="@+id/photoproof_button"
+        android:text="Submit Pictures"
+        android:padding="4dp"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"
+        android:layout_marginBottom="8dp"
+        />
+
+    <!-- Check upload status button -->
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:id="@+id/photoproof_button"
-        android:text="Submit Pictures"
+        android:id="@+id/photoproof_status_button"
+        android:text="Check Photo Status"
         android:padding="4dp"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"
+        android:layout_marginBottom="8dp"
         />
+
 </RelativeLayout>

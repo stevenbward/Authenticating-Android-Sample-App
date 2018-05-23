@@ -1,15 +1,26 @@
 package hotb.pgmacdesign.authenticatingapisampleapp.fragments;
 
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +32,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -32,7 +46,9 @@ import hotb.pgmacdesign.authenticatingapisampleapp.interfaces.MainActivityListen
 import hotb.pgmacdesign.authenticatingapisampleapp.interfaces.PictureTakenListener;
 import hotb.pgmacdesign.authenticatingapisampleapp.misc.Constants;
 import hotb.pgmacdesign.authenticatingapisampleapp.misc.MyApplication;
+import hotb.pgmacdesign.authenticatingapisampleapp.misc.SimpleUtilities;
 import hotb.pgmacdesign.authenticatingsdk.datamodels.AuthenticatingException;
+import hotb.pgmacdesign.authenticatingsdk.datamodels.CheckPhotoResults;
 import hotb.pgmacdesign.authenticatingsdk.interfaces.OnTaskCompleteListener;
 import hotb.pgmacdesign.authenticatingsdk.networking.AuthenticatingAPICalls;
 import hotb.pgmacdesign.authenticatingsdk.networking.AuthenticatingConstants;
@@ -43,27 +59,28 @@ import hotb.pgmacdesign.authenticatingsdk.networking.AuthenticatingConstants;
 
 public class PhotoProofFragment extends Fragment implements
         View.OnClickListener, PictureTakenListener {
+    enum PhotoType {
+        comparePhotos, uploadId, uploadIdEnhanced, uploadPassport
+    }
 
     public static final int LEFT_SIDE = 333;
     public static final int RIGHT_SIDE = 444;
-
-    enum PhotoType {
-        comparePhotos, uploadId
-    }
 
     private String leftPhotoPath, rightPhotoPath;
     private File leftPhotoFile, rightPhotoFile;
     private Uri leftPhotoUri, rightPhotoUri;
     private Bitmap leftBitmap, rightBitmap;
     private PhotoType photoType;
+    private AlertDialog d;
 
     private static PhotoProofFragment instance;
 
     //UI
-    private TextView photoproof_top_tv, photoproof_right_iv_tv, photoproof_left_iv_tv;
+    private TextView photoproof_top_tv, photoproof_right_iv_tv, photoproof_left_iv_tv,
+            photoproof_reset_tv;
     private Spinner photoproof_spinner;
     private ImageView photoproof_left_iv, photoproof_right_iv;
-    private Button photoproof_button;
+    private Button photoproof_button, photoproof_status_button;
 
     private ArrayAdapter<String> spinnerAdapter;
     private MainActivity activity;
@@ -110,7 +127,7 @@ public class PhotoProofFragment extends Fragment implements
     private void initVariables(){
         this.leftPictureSet = this.rightPictureSet = false;
         this.photoType = PhotoType.uploadId;
-        String[] strs = {"Upload ID", "Compare Photos"};
+        String[] strs = {"Upload ID", "Upload ID Enhanced", "Compare Photos", "Upload Passport"};
         this.spinnerAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, strs);
     }
@@ -124,14 +141,19 @@ public class PhotoProofFragment extends Fragment implements
         photoproof_top_tv = (TextView) view.findViewById(R.id.photoproof_top_tv);
         photoproof_right_iv_tv = (TextView) view.findViewById(R.id.photoproof_right_iv_tv);
         photoproof_left_iv_tv = (TextView) view.findViewById(R.id.photoproof_left_iv_tv);
+        photoproof_reset_tv = (TextView) view.findViewById(R.id.photoproof_reset_tv);
         photoproof_left_iv = (ImageView) view.findViewById(R.id.photoproof_left_iv);
         photoproof_right_iv = (ImageView) view.findViewById(R.id.photoproof_right_iv);
         photoproof_button = (Button) view.findViewById(R.id.photoproof_button);
+        photoproof_status_button = (Button) view.findViewById(R.id.photoproof_status_button);
 
-        photoproof_button.setOnClickListener(this);
+        photoproof_status_button.setTransformationMethod(null);
         photoproof_button.setTransformationMethod(null);
+        photoproof_status_button.setOnClickListener(this);
+        photoproof_button.setOnClickListener(this);
         photoproof_right_iv.setOnClickListener(this);
         photoproof_left_iv.setOnClickListener(this);
+        photoproof_reset_tv.setOnClickListener(this);
 
         photoproof_spinner.setAdapter(spinnerAdapter);
         photoproof_spinner.setSelection(0);
@@ -142,7 +164,11 @@ public class PhotoProofFragment extends Fragment implements
                 if(position == 0){
                     photoType = PhotoType.uploadId;
                 } else if(position == 1){
+                    photoType = PhotoType.uploadIdEnhanced;
+                } else if(position == 2){
                     photoType = PhotoType.comparePhotos;
+                } else if(position == 3){
+                    photoType = PhotoType.uploadPassport;
                 }
                 setTextFields(position);
             }
@@ -152,22 +178,145 @@ public class PhotoProofFragment extends Fragment implements
     }
 
     private void setTextFields(int i) {
-        if(i == 0){
-            photoproof_left_iv_tv.setText("-- ID Front --");
-            photoproof_right_iv_tv.setText("-- ID Back --");
-            photoproof_left_iv_tv.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
-            photoproof_right_iv_tv.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
-        } else if (i == 1){
-            photoproof_left_iv_tv.setText("-- Img 1 --");
-            photoproof_right_iv_tv.setText("-- Img 2 --");
-            photoproof_left_iv_tv.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
-            photoproof_right_iv_tv.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
+        switch (i){
+
+            case 2:
+                photoproof_left_iv_tv.setText("-- Img 1 --");
+                photoproof_right_iv_tv.setText("-- Img 2 --");
+                photoproof_left_iv_tv.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+                photoproof_right_iv_tv.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+                break;
+
+            default:
+            case 1:
+            case 0:
+                photoproof_left_iv_tv.setText("-- ID Front --");
+                photoproof_right_iv_tv.setText("-- ID Back --");
+                photoproof_left_iv_tv.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
+                photoproof_right_iv_tv.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
+                break;
+
         }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+
+            case R.id.photoproof_status_button:
+
+                switch (photoType){
+                    case uploadPassport:
+                        activity.showOrHideLoadingAnimation(true);
+                        AuthenticatingAPICalls.checkUploadPassport(new OnTaskCompleteListener() {
+                            @Override
+                            public void onTaskComplete(Object o, int i) {
+                                activity.showOrHideLoadingAnimation(false);
+                                String responseFromServer = null;
+                                if(i == AuthenticatingConstants.TAG_CHECK_PHOTO_RESULT) {
+                                    CheckPhotoResults myObjectToReturn = (CheckPhotoResults) o;
+                                    if (myObjectToReturn != null) {
+                                        try {
+                                            responseFromServer = myObjectToReturn.getDescription();
+                                            L.m("response == " + new Gson().toJson(
+                                                    myObjectToReturn, CheckPhotoResults.class));
+                                            responseFromServer = "Check Upload Passport: " + responseFromServer;
+                                        } catch (Exception e){e.printStackTrace();}
+                                    }
+                                } else if (i == AuthenticatingConstants.TAG_ERROR_RESPONSE){
+                                    AuthenticatingException e = (AuthenticatingException) o;
+                                    if(e != null) {
+                                        e.printStackTrace();
+                                        responseFromServer = e.getAuthErrorString();
+                                    }
+                                } else {
+                                    L.m("Response == " + o);
+                                }
+                                if(SimpleUtilities.isNullOrEmpty(responseFromServer)){
+                                    responseFromServer = "An error has occurred";
+                                }
+                                d = new AlertDialog.Builder(getActivity())
+                                        .setTitle("Result")
+                                        .setMessage(responseFromServer)
+                                        .setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                        .create();
+                                if(d != null){
+                                    d.show();
+                                }
+                            }
+                        }, Constants.SAMPLE_COMPANY_API_KEY, MyApplication.getSharedPrefsInstance().getString(
+                                Constants.ACCESS_CODE, ""));
+                        break;
+
+                    case comparePhotos:
+                        L.Toast(getActivity(), "'Compare Photos' does not need to check status");
+                        break;
+
+                    case uploadIdEnhanced:
+                    case uploadId:
+                        activity.showOrHideLoadingAnimation(true);
+                        AuthenticatingAPICalls.checkUploadId(new OnTaskCompleteListener() {
+                            @Override
+                            public void onTaskComplete(Object o, int i) {
+                                activity.showOrHideLoadingAnimation(false);
+                                String responseFromServer = null;
+                                if(i == AuthenticatingConstants.TAG_CHECK_PHOTO_RESULT) {
+                                    CheckPhotoResults myObjectToReturn = (CheckPhotoResults) o;
+                                    if (myObjectToReturn != null) {
+                                        try {
+                                            responseFromServer = myObjectToReturn.getDescription();
+                                            L.m("response == " + new Gson().toJson(
+                                                    myObjectToReturn, CheckPhotoResults.class));
+                                            responseFromServer = "Check Upload ID: " + responseFromServer;
+                                        } catch (Exception e){e.printStackTrace();}
+                                    }
+                                } else if (i == AuthenticatingConstants.TAG_ERROR_RESPONSE){
+                                    AuthenticatingException e = (AuthenticatingException) o;
+                                    if(e != null) {
+                                        e.printStackTrace();
+                                        responseFromServer = e.getAuthErrorString();
+                                    }
+                                } else {
+                                    L.m("Response == " + o);
+                                }
+                                if(SimpleUtilities.isNullOrEmpty(responseFromServer)){
+                                    responseFromServer = "An error has occurred";
+                                }
+                                d = new AlertDialog.Builder(getActivity())
+                                        .setTitle("Result")
+                                        .setMessage(responseFromServer)
+                                        .setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                        .create();
+                                if(d != null){
+                                    d.show();
+                                }
+                            }
+                        }, Constants.SAMPLE_COMPANY_API_KEY, MyApplication.getSharedPrefsInstance().getString(
+                                Constants.ACCESS_CODE, ""));
+                        break;
+                }
+
+                break;
+
+            case R.id.photoproof_reset_tv:
+                leftPictureSet = rightPictureSet = false;
+                rightBitmap = leftBitmap = null;
+                photoproof_left_iv.setImageResource(R.drawable.ic_menu_camera);
+                photoproof_right_iv.setImageResource(R.drawable.ic_menu_camera);
+                photoproof_left_iv.setOnClickListener(this);
+                photoproof_right_iv.setOnClickListener(this);
+                break;
+
             case R.id.photoproof_left_iv:
                 takePicture(true);
                 break;
@@ -177,28 +326,131 @@ public class PhotoProofFragment extends Fragment implements
                 break;
 
             case R.id.photoproof_button:
+                if(photoType == null){
+                    photoType = PhotoType.uploadId;
+                }
                 if(leftPictureSet && rightPictureSet){
-                    listener.showOrHideLoadingAnimation(true);
-                    AuthenticatingAPICalls.comparePhotos(
-                            new OnTaskCompleteListener() {
-                                @Override
-                                public void onTaskComplete(Object o, int i) {
-                                    listener.showOrHideLoadingAnimation(false);
-                                    if (i == AuthenticatingConstants.TAG_ERROR_RESPONSE) {
-                                        AuthenticatingException e = (AuthenticatingException) o;
-                                        L.Toast(getActivity(), "An error has Occurred: " +
-                                                e.getAuthErrorString());
-                                    } else if (i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE_OBJ) {
-                                        L.toast(getActivity(), "Your photo has been uploaded successfully");
+                    //updatePhotos();
+                    if(photoType == PhotoType.uploadId){
+                        listener.showOrHideLoadingAnimation(true);
+
+                        AuthenticatingAPICalls.uploadId(
+                                new OnTaskCompleteListener() {
+                                    @Override
+                                    public void onTaskComplete(Object o, int i) {
+                                        listener.showOrHideLoadingAnimation(false);
+                                        if (i == AuthenticatingConstants.TAG_ERROR_RESPONSE) {
+                                            AuthenticatingException e = (AuthenticatingException) o;
+                                            if(e != null){
+                                                L.Toast(getActivity(), "An error has Occurred: " +
+                                                        e.getAuthErrorString());
+                                            }
+
+                                        } else if (i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE) {
+                                            L.toast(getActivity(), "Your photo has been uploaded successfully");
+                                        }
                                     }
-                                }
-                            }, Constants.SAMPLE_COMPANY_API_KEY,
-                            MyApplication.getSharedPrefsInstance().getString(Constants.ACCESS_CODE, ""),
-                            leftBitmap, rightBitmap
-                    );
+                                }, Constants.SAMPLE_COMPANY_API_KEY,
+                                MyApplication.getSharedPrefsInstance().getString(Constants.ACCESS_CODE, ""),
+                                leftBitmap, rightBitmap
+                        );
+                    } else if (photoType == PhotoType.uploadIdEnhanced){
+                        listener.showOrHideLoadingAnimation(true);
+
+                        AuthenticatingAPICalls.uploadIdEnhanced(
+                                new OnTaskCompleteListener() {
+                                    @Override
+                                    public void onTaskComplete(Object o, int i) {
+                                        listener.showOrHideLoadingAnimation(false);
+                                        if (i == AuthenticatingConstants.TAG_ERROR_RESPONSE) {
+                                            AuthenticatingException e = (AuthenticatingException) o;
+                                            if(e != null){
+                                                L.Toast(getActivity(), "An error has Occurred: " +
+                                                        e.getAuthErrorString());
+                                            }
+
+                                        } else if (i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE) {
+                                            L.toast(getActivity(), "Your photo has been uploaded successfully");
+                                        }
+                                    }
+                                }, Constants.SAMPLE_COMPANY_API_KEY,
+                                MyApplication.getSharedPrefsInstance().getString(Constants.ACCESS_CODE, ""),
+                                leftBitmap, rightBitmap
+                        );
+
+                    } else if (photoType == PhotoType.comparePhotos){
+                        listener.showOrHideLoadingAnimation(true);
+                        AuthenticatingAPICalls.comparePhotos(
+                                new OnTaskCompleteListener() {
+                                    @Override
+                                    public void onTaskComplete(Object o, int i) {
+                                        listener.showOrHideLoadingAnimation(false);
+                                        if (i == AuthenticatingConstants.TAG_ERROR_RESPONSE) {
+                                            AuthenticatingException e = (AuthenticatingException) o;
+                                            if(e != null){
+                                                L.Toast(getActivity(), "An error has Occurred: " +
+                                                        e.getAuthErrorString());
+                                            }
+
+                                        } else if (i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE) {
+                                            L.toast(getActivity(), "Your photo has been uploaded successfully");
+                                        }
+                                    }
+                                }, Constants.SAMPLE_COMPANY_API_KEY,
+                                MyApplication.getSharedPrefsInstance().getString(Constants.ACCESS_CODE, ""),
+                                leftBitmap, rightBitmap
+                        );
+                    } else if (photoType == PhotoType.uploadPassport){
+                        listener.showOrHideLoadingAnimation(true);
+                        AuthenticatingAPICalls.uploadPassport(
+                                new OnTaskCompleteListener() {
+                                    @Override
+                                    public void onTaskComplete(Object o, int i) {
+                                        listener.showOrHideLoadingAnimation(false);
+                                        if (i == AuthenticatingConstants.TAG_ERROR_RESPONSE) {
+                                            AuthenticatingException e = (AuthenticatingException) o;
+                                            if(e != null){
+                                                L.Toast(getActivity(), "An error has Occurred: " +
+                                                        e.getAuthErrorString());
+                                            }
+
+                                        } else if (i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE) {
+                                            L.toast(getActivity(), "Your passport has been uploaded successfully");
+                                        }
+                                    }
+                                }, Constants.SAMPLE_COMPANY_API_KEY, MyApplication.getSharedPrefsInstance()
+                                        .getString(Constants.ACCESS_CODE, ""), leftBitmap
+                        );
+                    }
+
                 }
                 break;
         }
+    }
+
+
+
+    private static Bitmap resizePhoto(@NonNull Bitmap bmp){
+        try {
+            double height = Math.sqrt(1000000 /
+                    (((double) bmp.getWidth()) / bmp.getHeight()));
+            double width = (height / bmp.getHeight()) * bmp.getWidth();
+            Bitmap bmp1 = Bitmap.createScaledBitmap(bmp, (int)(width),
+                    (int)(height), true);
+            return bmp1;
+        } catch (Exception e){
+            e.printStackTrace();
+            return bmp;
+        }
+    }
+
+    private void updatePhotos(File file1, File file2){
+        /*
+        circle_loading_view.startDeterminate();
+        circle_loading_view.setPercent(10);
+        IF IT FAILS:
+        circle_loading_view.stopFailure();
+        */
     }
 
     /**
@@ -218,22 +470,24 @@ public class PhotoProofFragment extends Fragment implements
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(getActivity(),
-                        //This file provider is in your manifest. See manifest for sample
-                        "hotb.pgmacdesign.authenticatingapisampleapp.android.fileprovider",
-                        photoFile);
-                if(isLeftSide) {
-                    leftPhotoUri = photoURI;
-                } else {
-                    rightPhotoUri = photoURI;
+                try {
+                    Uri photoURI = FileProvider.getUriForFile(getActivity(),
+                            "hotb.pgmacdesign.authenticatingapisampleapp.android.fileprovider",
+                            photoFile);
+                    if (isLeftSide) {
+                        leftPhotoUri = photoURI;
+                    } else {
+                        rightPhotoUri = photoURI;
+                    }
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    if (isLeftSide) {
+                        activity.startActivityForResult(takePictureIntent, LEFT_SIDE);
+                    } else {
+                        activity.startActivityForResult(takePictureIntent, RIGHT_SIDE);
+                    }
+                } catch (IllegalArgumentException ile){
+                    //This will trigger if the file provider is malformed or missing
                 }
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                if(isLeftSide) {
-                    activity.startActivityForResult(takePictureIntent, LEFT_SIDE);
-                } else {
-                    activity.startActivityForResult(takePictureIntent, RIGHT_SIDE);
-                }
-
             }
         }
     }
@@ -272,7 +526,6 @@ public class PhotoProofFragment extends Fragment implements
                 }
             }
         }
-
         // Save a file: path for use with ACTION_VIEW intents
         if(isLeftSide) {
             leftPhotoPath = image.getAbsolutePath();
@@ -287,6 +540,7 @@ public class PhotoProofFragment extends Fragment implements
         super.onResume();
         checkButton();
     }
+
 
     @Override
     public void photoTaken(boolean isLeftSide) {
@@ -335,4 +589,161 @@ public class PhotoProofFragment extends Fragment implements
         } catch (Exception e){}
     }
 
+    private static Uri getImageContentUri(Context context, File imageFile) {
+        String filePath = imageFile.getAbsolutePath();
+        Cursor cursor = context.getContentResolver().query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[] { MediaStore.Images.Media._ID },
+                MediaStore.Images.Media.DATA + "=? ",
+                new String[] { filePath }, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
+            cursor.close();
+            return Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "" + id);
+        } else {
+            if (imageFile.exists()) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DATA, filePath);
+                return context.getContentResolver().insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            } else {
+                return null;
+            }
+        }
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public static String getPath(final Context context, final Uri uri) {
+
+        final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+
+        // DocumentProvider
+        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+            // ExternalStorageProvider
+            if (isExternalStorageDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                if ("primary".equalsIgnoreCase(type)) {
+                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                }
+
+                // TODO handle non-primary volumes
+            }
+            // DownloadsProvider
+            else if (isDownloadsDocument(uri)) {
+
+                final String id = DocumentsContract.getDocumentId(uri);
+                final Uri contentUri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+
+                return getDataColumn(context, contentUri, null, null);
+            }
+            // MediaProvider
+            else if (isMediaDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                Uri contentUri = null;
+                if ("image".equals(type)) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+
+                final String selection = "_id=?";
+                final String[] selectionArgs = new String[] {
+                        split[1]
+                };
+
+                return getDataColumn(context, contentUri, selection, selectionArgs);
+            }
+        }
+        // MediaStore (and general)
+        else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            return getDataColumn(context, uri, null, null);
+        }
+        // File
+        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the value of the data column for this Uri. This is useful for
+     * MediaStore Uris, and other file-based ContentProviders.
+     *
+     * @param context The context.
+     * @param uri The Uri to query.
+     * @param selection (Optional) Filter used in the query.
+     * @param selectionArgs (Optional) Selection arguments used in the query.
+     * @return The value of the _data column, which is typically a file path.
+     */
+    public static String getDataColumn(Context context, Uri uri, String selection,
+                                       String[] selectionArgs) {
+
+        Cursor cursor = null;
+        final String column = "_data";
+        final String[] projection = {
+                column
+        };
+
+        try {
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
+                    null);
+            if (cursor != null && cursor.moveToFirst()) {
+                final int column_index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(column_index);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
+
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is ExternalStorageProvider.
+     */
+    public static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is DownloadsProvider.
+     */
+    public static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is MediaProvider.
+     */
+    public static boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+
+
+    private static String encodeImage(Bitmap bm) {
+        if (bm == null) {
+            return null;
+        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+        return encImage;
+    }
 }

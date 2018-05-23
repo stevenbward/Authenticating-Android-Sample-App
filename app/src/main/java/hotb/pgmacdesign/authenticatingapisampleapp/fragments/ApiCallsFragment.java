@@ -138,6 +138,26 @@ public class ApiCallsFragment  extends Fragment implements AdapterView.OnItemCli
                 str = str + ", " + "Starts the email validation test by sending an email to the one on file.";
                 break;
 
+            case 11:
+                str = Constants.API_CALLS[position];
+                str = str + ", " + "Upload an ID (IE, a Driver's License) for verification. Takes a Front and Back.";
+                break;
+            case 12:
+                str = Constants.API_CALLS[position];
+                str = str + ", " + "Same as uploadId except the analysis is more robust and has a higher standard to pass.";
+                break;
+            case 13:
+                str = Constants.API_CALLS[position];
+                str = str + ", " + "Check on the status the ID uploaded to determine if it needs to be redone.";
+                break;
+            case 14:
+                str = Constants.API_CALLS[position];
+                str = str + ", " + "Upload a passport for verification. Requires only 1 picture to be sent.";
+                break;
+            case 15:
+                str = Constants.API_CALLS[position];
+                str = str + ", " + "Check on the status the Passport uploaded to determine if it needs to be redone.";
+                break;
         }
         if(!str.isEmpty()) {
             L.Toast(getActivity(), str);

@@ -99,7 +99,7 @@ public class BackgroundReportFragment  extends Fragment {
                                     L.Toast(getActivity(), "An error has Occurred: " +
                                             e.getAuthErrorString());
                                     backgroundreport_bottom_tv.setText("Call Failed");
-                                } else if (i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE_OBJ) {
+                                } else if (i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE) {
                                     L.toast(getActivity(), "Success!");
                                     backgroundreport_bottom_tv.setText("Call Succeeded");
                                 } else {

@@ -154,7 +154,7 @@ public class ContactProofFragment extends Fragment implements View.OnClickListen
                                  listener.showOrHideLoadingAnimation(false);
                                  if(i == AuthenticatingConstants.TAG_ERROR_RESPONSE){
                                      L.Toast(getActivity(), "Could not send an email, please try again");
-                                 } else if(i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE_OBJ){
+                                 } else if(i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE){
                                      L.Toast(getActivity(), "Success, check your inbox for your verification email");
                                  }
                              }
@@ -180,7 +180,7 @@ public class ContactProofFragment extends Fragment implements View.OnClickListen
                                         AuthenticatingException e = (AuthenticatingException) o;
                                         L.Toast(getActivity(), "An error has Occurred: " +
                                                 e.getAuthErrorString());
-                                    } else if (i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE_OBJ) {
+                                    } else if (i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE) {
                                         L.toast(getActivity(), "You have been sent an SMS with your code");
                                         L.Toast(getActivity(), "When you receive it, enter it into the Edit Text below");
                                         userHasBeenSentText = true;
@@ -201,7 +201,7 @@ public class ContactProofFragment extends Fragment implements View.OnClickListen
                                         AuthenticatingException e = (AuthenticatingException) o;
                                         L.Toast(getActivity(), "An error has Occurred: " +
                                                 e.getAuthErrorString());
-                                    } else if (i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE_OBJ) {
+                                    } else if (i == AuthenticatingConstants.TAG_SIMPLE_RESPONSE) {
                                         L.Toast(getActivity(), "Success! You have verified your phone number!");
                                     }
                                 }
